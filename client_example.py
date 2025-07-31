@@ -10,7 +10,7 @@ async def receive_audio():
     pcm_chunks = []
 
     async with websockets.connect(uri) as websocket:
-        await websocket.send("你好，这是一段测试语音。")
+        await websocket.send("你好，这个问题其实很好解决，您稍等一下，不要着急，我给您详细解答一下。")
         print("已发送文本，正在接收语音...")
 
         while True:

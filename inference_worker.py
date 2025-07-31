@@ -1,6 +1,9 @@
 import asyncio
 import io
 import torch
+import random
+import numpy as np
+
 import wave
 from request_queue import request_queue
 
@@ -47,8 +50,17 @@ def inference_worker(cosyvoice, request_queue):
         loop.run_until_complete(run_tts())
 
 async def stream_tts(cosyvoice, text, speaker_id):
+
+    # 设置种子，固定输出
+    SEED = 42
+    torch.manual_seed(SEED)
+    random.seed(SEED)
+    np.random.seed(SEED)
+
+    prompt_text = "这是一位温柔、耐心、亲切的女客服的声音，说话语速适中，语调柔和，令人安心。"
+
     for i, j in enumerate(cosyvoice.inference_zero_shot(
-        text, '', '',
+        text, prompt_text, '',
         zero_shot_spk_id=speaker_id,
         stream=True)):
 
